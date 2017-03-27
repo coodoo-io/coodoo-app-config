@@ -34,7 +34,7 @@ public class AppConfigSettings {
     public static String LIST_SEPARATOR = ";";
 
     /**
-     * Pattern for the collection separator {@link AppConfigSettings.LIST_SEPARATOR}
+     * Pattern for the collection separator
      */
     public static final Pattern SPLIT_PATTERN = Pattern.compile(LIST_SEPARATOR);
 
