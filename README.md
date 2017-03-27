@@ -45,7 +45,6 @@ Available value type:
 3. Define your Configurations
 
    Create an emum that implements `AppConfigKey` located in the `io.coodoo.appconfig.boundary` package and name it whatever you want.
-   Just get and set Values as you need it.
    
 
    ```java
@@ -85,16 +84,12 @@ Available value type:
 	    AppConfigs appConfigs;    
 
 	    public void doImportantThings() {
-	        
-	    	if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
-	            
-	    		for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
-	                
-	    			doImportantThing(id);
-	    		}
-	            
-	    		appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
-	    	}
+	        if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
+	            for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
+	                doImportantThing(id);
+	            }
+	            appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
+	        }
 	    }
 	    // ...
 	}
