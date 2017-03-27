@@ -1,16 +1,16 @@
 # AppConfig #
 
 
-*Simple persistent application configuration service*j´
+*Simple persistent application configuration service*
 
 This library provides you an easy way to store and access properties in the database.
 Available value type:
- - **String** *gets stored as a CLOB if it exceeds a designated length*
- - **Long** *good for any number so far*
- - **Boolean** *to dodge null checks you can ask the service for a native boolean result*
- - **Password** *like String, but it will be stored encrypted*
- - **List of Strings** *collection of strings that can be empty but never null*
- - **List of Longs** *you got the idea...*
+ - **String** *- gets stored as a CLOB if it exceeds a designated length*
+ - **Long** *- good for any number so far*
+ - **Boolean** *- to dodge null checks you can ask the service for a native boolean result*
+ - **Password** *- like String, but it will be stored encrypted*
+ - **List of Strings** *- collection of strings that can be empty but never null*
+ - **List of Longs** *- you got the idea...*
 
 ## Getting started
 
@@ -19,13 +19,14 @@ Available value type:
    Create the AppConfig table `app_config`
 
    ```sql
-   	CREATE TABLE app_config (
-	  config_key varchar(128) NOT NULL,
-	  config_type varchar(16) NOT NULL,
-	  config_value varchar(1024) DEFAULT NULL,
-	  config_large_value text DEFAULT NULL,
-	  PRIMARY KEY (config_key),
-	  UNIQUE (config_key)
+   
+	CREATE TABLE app_config (
+	    config_key varchar(128) NOT NULL,
+	    config_type varchar(16) NOT NULL,
+	    config_value varchar(1024) DEFAULT NULL,
+	    config_large_value text DEFAULT NULL,
+	    PRIMARY KEY (config_key),
+	    UNIQUE (config_key)
 	);
    
     ```
@@ -48,7 +49,8 @@ Available value type:
    
 
    ```java
-   	public enum AppConfig implements AppConfigKey {
+   
+	public enum AppConfig implements AppConfigKey {
 
 	    IMPORTANT_THINGS_ACTIVE(ValueType.BOOLEAN),
 	    IMPORTANT_THINGS(ValueType.LONG_LIST);
@@ -76,23 +78,23 @@ Available value type:
    
 
    ```java
-   	@Stateless
+	@Stateless
 	public void ExampleService {
 
 	    @Inject
-    	AppConfigs appConfigs;    
+	    AppConfigs appConfigs;    
 
 	    public void doImportantThings() {
 	        
-	        if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
+	    	if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
 	            
-	            for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
+	    		for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
 	                
-	                doImportantThing(id);
-	            }
+	    			doImportantThing(id);
+	    		}
 	            
-	            appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
-	        }
+	    		appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
+	    	}
 	    }
 	    // ...
 	}
