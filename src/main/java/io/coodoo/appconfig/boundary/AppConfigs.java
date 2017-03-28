@@ -187,7 +187,7 @@ public class AppConfigs {
 
             AppConfigValue config = entityManager.find(AppConfigValue.class, key.getId());
 
-            if (config != null && config.getType().equals(key.getType())) {
+            if (config != null && !config.getType().equals(key.getType())) {
                 log.error("Abort saving {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
                 return;
             }

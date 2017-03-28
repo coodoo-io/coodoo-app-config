@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.coodoo</groupId>
     <artifactId>appconfig</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>App Config</name>
     <description>Simple persistent application configuration service</description>

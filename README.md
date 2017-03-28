@@ -2,7 +2,7 @@
 
 *Simple persistent application configuration service*
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.0.0/appconfig-1.0.0.jar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.0.1/appconfig-1.0.1.jar)
 
 This library provides you an easy way to store and access properties with the database.
 Available value types:
@@ -38,13 +38,13 @@ Available value types:
 	<class>io.coodoo.appconfig.entity.AppConfigValue</class> 
    ```
 
-   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.0.0%7Cjar):
+   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.0.1%7Cjar):
 
    ```xml
 	<dependency>
 	    <groupId>io.coodoo</groupId>
 	    <artifactId>appconfig</artifactId>
-	    <version>1.0.0</version>
+	    <version>1.0.1</version>
 	</dependency>
    ```
 
