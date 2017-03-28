@@ -2,7 +2,7 @@
 
 *Simple persistent application configuration service*
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.0.0/appconfig-1.0.0.jar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.0.0%7Cjar)
 
 This library provides you an easy way to store and access properties in the database.
 Available value type:
@@ -92,11 +92,11 @@ Available value type:
 	        
 	    	if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
 	            
-	    		for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
+	    	    for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
 	                
-	    			doImportantThing(id);
-	    		}
-	    		appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
+	    	        doImportantThing(id);
+	    	    }
+	    	    appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
 	    	}
 	    }
 	    // ...
