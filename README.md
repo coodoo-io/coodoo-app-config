@@ -4,8 +4,8 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.0.0/appconfig-1.0.0.jar)
 
-This library provides you an easy way to store and access properties in the database.
-Available value type:
+This library provides you an easy way to store and access properties with the database.
+Available value types:
  - **String** *- gets stored as a CLOB if it exceeds a designated length*
  - **Long** *- good for any number so far*
  - **Boolean** *- to dodge null checks you can ask the service for a native boolean result*
@@ -76,9 +76,9 @@ Available value type:
     ```
 
    
-3. Usage in a Stateless Bean
+3. Use it in a stateless bean
 
-   Inject the `AppConfigs` service and get and set Values as you need it.
+   Inject the `AppConfigs` service and get and set values as you need it.
    
 
    ```java
