@@ -48,7 +48,7 @@ Available value types:
 	</dependency>
    ```
 
-2. Define your Configurations
+2. Define your configurations
 
    Create an emum that implements `AppConfigKey` and name it whatever you want.
      
