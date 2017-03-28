@@ -1,7 +1,8 @@
 # AppConfig #
 
-
 *Simple persistent application configuration service*
+
+[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.0.0/appconfig-1.0.0.jar)
 
 This library provides you an easy way to store and access properties in the database.
 Available value type:
@@ -14,9 +15,9 @@ Available value type:
 
 ## Getting started
 
-1. Prepare your database
+1. Prepare your project
 
-   Create the AppConfig table `app_config`
+   Create the AppConfig table `app_config`. *This is a MySQL example, see [here](https://github.com/coodoo-io/appconfig/tree/master/src/main/resources) for more.*
 
    ```sql
    
@@ -30,9 +31,14 @@ Available value type:
 	);
    
     ```
-    This is a MySQL example, see [here](https://github.com/coodoo-io/appconfig/tree/master/src/main/resources) for more.
+    
+   Add the entity to your persistence.xml:
 
-2. Add the following dependency to your project ([published on Maven Central](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.0.0%7Cjar)):
+   ```xml
+	<class>io.coodoo.appconfig.entity.AppConfigValue</class> 
+   ```
+
+   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.0.0%7Cjar):
 
    ```xml
 	<dependency>
@@ -42,10 +48,10 @@ Available value type:
 	</dependency>
    ```
 
-3. Define your Configurations
+2. Define your Configurations
 
-   Create an emum that implements `AppConfigKey` located in the `io.coodoo.appconfig.boundary` package and name it whatever you want.
-   
+   Create an emum that implements `AppConfigKey` and name it whatever you want.
+     
 
    ```java
    
@@ -70,10 +76,9 @@ Available value type:
     ```
 
    
-4. Usage in a Stateless Bean
+3. Usage in a Stateless Bean
 
-   Inject `AppConfigs` located in the `io.coodoo.appconfig.boundary` package.
-   Just get and set Values as you need it.
+   Inject the `AppConfigs` service and get and set Values as you need it.
    
 
    ```java
@@ -84,12 +89,15 @@ Available value type:
 	    AppConfigs appConfigs;    
 
 	    public void doImportantThings() {
-	        if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
-	            for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
-	                doImportantThing(id);
-	            }
-	            appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
-	        }
+	        
+	    	if(appConfigs.getNativeBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE)){
+	            
+	    		for(Long id : appConfigs.getLongList(AppConfig.IMPORTANT_THINGS)){
+	                
+	    			doImportantThing(id);
+	    		}
+	    		appConfigs.setBoolean(AppConfig.IMPORTANT_THINGS_ACTIVE, false);
+	    	}
 	    }
 	    // ...
 	}
