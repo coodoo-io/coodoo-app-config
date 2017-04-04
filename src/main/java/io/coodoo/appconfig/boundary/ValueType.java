@@ -1,21 +1,40 @@
 package io.coodoo.appconfig.boundary;
 
+/**
+ * Available value types, each with an encrypted alternative
+ * 
+ * @author coodoo
+ */
 public enum ValueType {
 
-    // REVIEW: Sinnvoll?
-    // DATE,
-    // SERIALIZABLE,
+    STRING(false),
 
-    STRING,
+    STRING_ENCRYPTED(true),
 
-    LONG,
+    LONG(false),
 
-    BOOLEAN,
+    LONG_ENCRYPTED(true),
 
-    PASSWORD,
+    BOOLEAN(false),
 
-    STRING_LIST,
+    BOOLEAN_ENCRYPTED(true),
 
-    LONG_LIST;
+    STRING_LIST(false),
+
+    STRING_LIST_ENCRYPTED(true),
+
+    LONG_LIST(false),
+
+    LONG_LIST_ENCRYPTED(true);
+
+    private boolean encrypted;
+
+    private ValueType(boolean encrypted) {
+        this.encrypted = encrypted;
+    }
+
+    public boolean encrypted() {
+        return encrypted;
+    }
 
 }

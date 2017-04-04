@@ -2,16 +2,17 @@
 
 *Simple persistent application configuration service*
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.0.1/appconfig-1.0.1.jar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/appconfig/1.1.0/appconfig-1.1.0.jar)
 
 This library provides you an easy way to store and access properties with the database.
 Available value types:
  - **String** *- gets stored as a CLOB if it exceeds a designated length*
  - **Long** *- good for any number so far*
  - **Boolean** *- to dodge null checks you can ask the service for a native boolean result*
- - **Password** *- like String, but it will be stored encrypted*
  - **List of Strings** *- collection of strings that can be empty but never null*
  - **List of Longs** *- you got the idea...*
+
+Wow, optionally all types can be stored encrypted!
 
 ## Getting started
 
@@ -23,7 +24,7 @@ Available value types:
    
 	CREATE TABLE app_config (
 	    config_key varchar(128) NOT NULL,
-	    config_type varchar(16) NOT NULL,
+	    config_type varchar(32) NOT NULL,
 	    config_value varchar(1024) DEFAULT NULL,
 	    config_large_value text DEFAULT NULL,
 	    PRIMARY KEY (config_key),
@@ -38,13 +39,13 @@ Available value types:
 	<class>io.coodoo.appconfig.entity.AppConfigValue</class> 
    ```
 
-   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.0.1%7Cjar):
+   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Cappconfig%7C1.1.0%7Cjar):
 
    ```xml
 	<dependency>
 	    <groupId>io.coodoo</groupId>
 	    <artifactId>appconfig</artifactId>
-	    <version>1.0.1</version>
+	    <version>1.1.0</version>
 	</dependency>
    ```
 

@@ -6,6 +6,19 @@
 ### BREAKING CHANGES
 -->
 
+<a name="1.1.0"></a>
+
+## 1.1.0 (2017-04-04)
+
+### Features
+
+ * All value types are now capable for encryption
+
+### BREAKING CHANGES
+
+ * The value type PASSWORD is no longer available, so are the methods `AppConfigs.getPassword()` and `AppConfigs.setPassword()`
+
+
 <a name="1.0.1"></a>
 
 ## 1.0.1 (2017-03-28)

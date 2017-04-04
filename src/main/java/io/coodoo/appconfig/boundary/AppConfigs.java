@@ -83,38 +83,6 @@ public class AppConfigs {
         setValue(key, value != null ? String.valueOf(value) : null);
     }
 
-    public String getPassword(AppConfigKey key) {
-
-        String value = getValue(key);
-        if (value != null) {
-            try {
-                EncryptDecrypt encryptDecrypt = new EncryptDecrypt();
-                return encryptDecrypt.decrypt(value);
-
-            } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException
-                            | BadPaddingException | IllegalBlockSizeException e) {
-                log.error("Can't decrypt password", e);
-            }
-        }
-        return null;
-    }
-
-    public void setPassword(AppConfigKey key, String value) {
-
-        if (value != null) {
-            try {
-                EncryptDecrypt encryptDecrypt = new EncryptDecrypt();
-                setValue(key, encryptDecrypt.encrypt(value));
-
-            } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException
-                            | BadPaddingException | IllegalBlockSizeException e) {
-                log.error("Can't encrypt password", e);
-            }
-        } else {
-            setValue(key, null);
-        }
-    }
-
     public List<String> getStringList(AppConfigKey key) {
 
         String value = getValue(key);
@@ -163,13 +131,19 @@ public class AppConfigs {
                     log.error("Abort loading {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
                     return null;
                 }
+
+                String value = null;
+
                 if (config.getValue() != null) {
-                    log.debug("Loading {}: {}", key.getId(), config.getValue());
-                    return config.getValue();
+                    value = config.getValue();
                 } else {
-                    log.debug("Loading {}: {}", key.getId(), config.getLargeValue());
-                    return config.getLargeValue();
+                    value = config.getLargeValue();
                 }
+
+                value = consultDecryption(key, value);
+
+                log.debug("Loading {}: {}", key.getId(), value);
+                return value;
             }
         } else {
             log.debug("Default value {}: {}", key.getId(), key.getDefaultValue());
@@ -194,8 +168,8 @@ public class AppConfigs {
 
             if (value == null) {
                 entityManager.remove(config);
-                config = null;
                 log.debug("Removing {}", key.getId());
+                return;
             }
 
             if (config == null) {
@@ -203,12 +177,12 @@ public class AppConfigs {
                 config = new AppConfigValue();
                 config.setKey(key.getId());
                 config.setType(key.getType());
-                setValueToEntity(value, config);
+                setValueToEntity(consultEncryption(key, value), config);
                 log.debug("Saving {}: {}", key.getId(), value);
                 entityManager.persist(config);
 
             } else {
-                setValueToEntity(value, config);
+                setValueToEntity(consultEncryption(key, value), config);
                 log.debug("Updating {}: {}", key.getId(), value);
             }
         } else {
@@ -224,5 +198,35 @@ public class AppConfigs {
             config.setValue(null);
             config.setLargeValue(value);
         }
+    }
+
+    private String consultEncryption(AppConfigKey key, String value) {
+
+        if (key.getType().encrypted()) {
+            try {
+                EncryptDecrypt encryptDecrypt = new EncryptDecrypt();
+                return encryptDecrypt.encrypt(value);
+
+            } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException
+                            | BadPaddingException | IllegalBlockSizeException e) {
+                log.error("Can't encrypt value", e);
+            }
+        }
+        return value;
+    }
+
+    private String consultDecryption(AppConfigKey key, String value) {
+
+        if (key.getType().encrypted()) {
+            try {
+                EncryptDecrypt encryptDecrypt = new EncryptDecrypt();
+                return encryptDecrypt.decrypt(value);
+
+            } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException
+                            | BadPaddingException | IllegalBlockSizeException e) {
+                log.error("Can't decrypt value", e);
+            }
+        }
+        return value;
     }
 }
