@@ -17,6 +17,7 @@
 ### BREAKING CHANGES
 
  * The value type PASSWORD is no longer available, so are the methods `AppConfigs.getPassword()` and `AppConfigs.setPassword()`
+ * The methods `AppConfigKey.isDBValue()` and `AppConfigKey.getDefaultValue()` moved to the new optional interface `AppConfigKeyAttributes`
 
 
 <a name="1.0.1"></a>

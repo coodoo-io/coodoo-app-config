@@ -121,72 +121,67 @@ public class AppConfigs {
 
     private String getValue(AppConfigKey key) {
 
-        if (key.isDBValue()) {
+        if (!isDBValue(key)) {
+            return getDefaultValue(key);
+        }
 
-            AppConfigValue config = entityManager.find(AppConfigValue.class, key.getId());
+        AppConfigValue config = entityManager.find(AppConfigValue.class, key.getId());
 
-            if (config != null) {
+        if (config != null) {
 
-                if (!config.getType().equals(key.getType())) {
-                    log.error("Abort loading {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
-                    return null;
-                }
-
-                String value = null;
-
-                if (config.getValue() != null) {
-                    value = config.getValue();
-                } else {
-                    value = config.getLargeValue();
-                }
-
-                value = consultDecryption(key, value);
-
-                log.debug("Loading {}: {}", key.getId(), value);
-                return value;
+            if (!config.getType().equals(key.getType())) {
+                log.error("Abort loading {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
+                return null;
             }
-        } else {
-            log.debug("Default value {}: {}", key.getId(), key.getDefaultValue());
-            if (key.getDefaultValue() == null) {
-                log.error("No default value set for {}!", key.getId());
+
+            String value = null;
+
+            if (config.getValue() != null) {
+                value = config.getValue();
+            } else {
+                value = config.getLargeValue();
             }
-            return key.getDefaultValue();
+
+            value = consultDecryption(key, value);
+
+            log.debug("Loading {}: {}", key.getId(), value);
+            return value;
         }
         return null;
     }
 
     private void setValue(AppConfigKey key, String value) {
 
-        if (key.isDBValue()) {
-
-            AppConfigValue config = entityManager.find(AppConfigValue.class, key.getId());
-
-            if (config != null && !config.getType().equals(key.getType())) {
-                log.error("Abort saving {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
-                return;
-            }
-
-            if (value == null) {
-                entityManager.remove(config);
-                log.debug("Removing {}", key.getId());
-                return;
-            }
-
-            if (config == null) {
-
-                config = new AppConfigValue();
-                config.setKey(key.getId());
-                config.setType(key.getType());
-                setValueToEntity(consultEncryption(key, value), config);
-                log.debug("Saving {}: {}", key.getId(), value);
-                entityManager.persist(config);
-
-            } else {
-                setValueToEntity(consultEncryption(key, value), config);
-                log.debug("Updating {}: {}", key.getId(), value);
-            }
-        } else {
+        if (isDBValue(key)) {
             log.error("Can't set value if marked \"isDBValue = false\"!", key.getId());
+            return;
+        }
+
+        AppConfigValue config = entityManager.find(AppConfigValue.class, key.getId());
+
+        if (config != null && !config.getType().equals(key.getType())) {
+            log.error("Abort saving {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
+            return;
+        }
+
+        if (value == null) {
+            entityManager.remove(config);
+            log.debug("Removing {}", key.getId());
+            return;
+        }
+
+        if (config == null) {
+
+            config = new AppConfigValue();
+            config.setKey(key.getId());
+            config.setType(key.getType());
+            setValueToEntity(consultEncryption(key, value), config);
+            log.debug("Saving {}: {}", key.getId(), value);
+            entityManager.persist(config);
+
+        } else {
+            setValueToEntity(consultEncryption(key, value), config);
+            log.debug("Updating {}: {}", key.getId(), value);
         }
     }
 
@@ -229,4 +224,27 @@ public class AppConfigs {
         }
         return value;
     }
+
+    private boolean isDBValue(AppConfigKey key) {
+        if (key instanceof AppConfigKeyAttributes) {
+            return ((AppConfigKeyAttributes) key).isDBValue();
+        }
+        return true;
+    }
+
+    private String getDefaultValue(AppConfigKey key) {
+
+        if (key instanceof AppConfigKeyAttributes) {
+
+            String defaultValue = ((AppConfigKeyAttributes) key).getDefaultValue();
+            if (defaultValue == null) {
+                log.error("Default value not set for {}!", key.getId());
+            } else {
+                log.debug("Default value {}: {}", key.getId(), defaultValue);
+                return defaultValue;
+            }
+        }
+        return null;
+    }
+
 }
