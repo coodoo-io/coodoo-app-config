@@ -18,4 +18,9 @@ public interface AppConfigKeyAttributes {
      */
     public String getDefaultValue();
 
+    /**
+     * @return <code>true</code> if the configuration needs not to change once it is stored in the database, <code>false</code> if not.
+     */
+    public boolean isImmutable();
+
 }

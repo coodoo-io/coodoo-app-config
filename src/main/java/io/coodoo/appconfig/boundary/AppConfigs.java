@@ -180,6 +180,10 @@ public class AppConfigs {
             entityManager.persist(config);
 
         } else {
+            if (isImmutable(key)) {
+                log.error("Can't update immutable value {}: {}", key.getId(), value);
+                return;
+            }
             setValueToEntity(consultEncryption(key, value), config);
             log.debug("Updating {}: {}", key.getId(), value);
         }
@@ -245,6 +249,13 @@ public class AppConfigs {
             }
         }
         return null;
+    }
+
+    private boolean isImmutable(AppConfigKey key) {
+        if (key instanceof AppConfigKeyAttributes) {
+            return ((AppConfigKeyAttributes) key).isImmutable();
+        }
+        return false;
     }
 
 }
