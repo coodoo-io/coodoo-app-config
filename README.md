@@ -104,3 +104,20 @@ Available value types:
     ```
 
    
+## Custom settings
+
+To provide own settings you need to add a property file named `coodoo.appconfigs.properties` to your project. This file gets read on server startup if available.
+
+These are the properties to be defined on the file:
+```properties
+## Maximal length to persist the value as a string, larger values will get persisted as CLOB
+coodoo.appconfigs.maxlength = 1024
+
+## Separator for collection entries represented as string
+coodoo.appconfigs.list.separator = ;
+
+## Secret keys for encryption / decryption
+coodoo.appconfigs.secret.key1 = CgksRbGmUWbDzKZD
+coodoo.appconfigs.secret.key2 = Adg6Oh1lwmGq0exF
+```
+You should change the secret keys to be sure they are only known in your project!
