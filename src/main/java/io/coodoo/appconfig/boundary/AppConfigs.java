@@ -23,6 +23,11 @@ import io.coodoo.appconfig.control.AppConfigSettings;
 import io.coodoo.appconfig.control.EncryptDecrypt;
 import io.coodoo.appconfig.entity.AppConfigValue;
 
+/**
+ * AppConfigs service
+ * 
+ * @author coodoo GmbH (coodoo.io)
+ */
 @Stateless
 public class AppConfigs {
 

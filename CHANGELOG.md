@@ -14,6 +14,7 @@
 
  * All value types are now capable for encryption
  * A value once set can be immutable using `AppConfigKeyAttributes.isImmutable()`
+ * Configuration static loader: `AppConfigSettings.loadProperties()`
 
 ### BREAKING CHANGES
 

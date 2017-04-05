@@ -3,7 +3,7 @@ package io.coodoo.appconfig.boundary;
 /**
  * Available value types, each with an encrypted alternative
  * 
- * @author coodoo
+ * @author coodoo GmbH (coodoo.io)
  */
 public enum ValueType {
 

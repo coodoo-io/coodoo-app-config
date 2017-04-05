@@ -69,10 +69,6 @@ Wow, optionally all types can be stored encrypted!
 	    public String getId() { return name(); }
 	    @Override
 	    public ValueType getType() { return type; }
-	    @Override
-	    public boolean isDBValue() { return true; }
-	    @Override
-	    public String getDefaultValue() { return null; }
 	}
     ```
 
@@ -107,7 +103,7 @@ Wow, optionally all types can be stored encrypted!
    
 ## Custom settings
 
-To provide own settings you need to add a property file named `coodoo.appconfigs.properties` to your project. This file gets read on server startup if available.
+To provide own settings you need to add a property file named `coodoo.appconfigs.properties` to your project. This file gets read on JavaEE server startup if available or manually by calling `AppConfigSettings.loadProperties()`;
 
 These are the properties to be defined on the file:
 ```properties

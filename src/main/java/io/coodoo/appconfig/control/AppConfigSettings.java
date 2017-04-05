@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Setting for the AppConfigs service
  * 
- * @author coodoo
+ * @author coodoo GmbH (coodoo.io)
  */
 @Singleton
 @Startup
@@ -53,14 +53,17 @@ public class AppConfigSettings {
      */
     private static final String appconfigsPropertiesFilename = "coodoo.appconfigs.properties";
 
-    Properties properties = new Properties();
+    static Properties properties = new Properties();
 
     @PostConstruct
     public void init() {
+        AppConfigSettings.loadProperties();
+    }
 
+    public static void loadProperties() {
         InputStream inputStream = null;
         try {
-            inputStream = getClass().getClassLoader().getResourceAsStream(appconfigsPropertiesFilename);
+            inputStream = AppConfigSettings.class.getClassLoader().getResourceAsStream(appconfigsPropertiesFilename);
 
             if (inputStream != null) {
 
@@ -85,7 +88,7 @@ public class AppConfigSettings {
         }
     }
 
-    private String loadProperty(String value, String key) {
+    private static String loadProperty(String value, String key) {
 
         String property = properties.getProperty(key);
         if (property == null) {
@@ -95,7 +98,7 @@ public class AppConfigSettings {
         return property;
     }
 
-    private int loadProperty(int value, String key) {
+    private static int loadProperty(int value, String key) {
         String property = properties.getProperty(key);
         if (property != null) {
             try {

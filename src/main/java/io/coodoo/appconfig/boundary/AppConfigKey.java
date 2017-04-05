@@ -3,7 +3,7 @@ package io.coodoo.appconfig.boundary;
 /**
  * Configuration key interface
  * 
- * @author coodoo
+ * @author coodoo GmbH (coodoo.io)
  */
 public interface AppConfigKey {
 

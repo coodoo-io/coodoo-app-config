@@ -11,6 +11,11 @@ import javax.persistence.Table;
 
 import io.coodoo.appconfig.boundary.ValueType;
 
+/**
+ * AppConfig entity
+ * 
+ * @author coodoo GmbH (coodoo.io)
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "app_config")
