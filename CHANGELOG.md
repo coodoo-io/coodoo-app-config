@@ -19,6 +19,7 @@
 
 ### BREAKING CHANGES
 
+ * Renamed the project/Maven artifactId from "appconfig" to "coodoo-app-config"
  * The value type PASSWORD is no longer available, so are the methods `AppConfigs.getPassword()` and `AppConfigs.setPassword()`
  * The methods `AppConfigKey.isDBValue()` and `AppConfigKey.getDefaultValue()` moved to the new optional interface `AppConfigKeyAttributes`
  * To provide the EntityManager you have to implement a `@AppConfigEntityManager` CDI producer

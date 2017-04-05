@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.coodoo</groupId>
-    <artifactId>appconfig</artifactId>
+    <artifactId>coodoo-app-config</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
     <name>App Config</name>
@@ -30,7 +30,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://raw.githubusercontent.com/coodoo-io/appconfig/master/LICENSE</url>
+            <url>https://raw.githubusercontent.com/coodoo-io/coodoo-app-config/master/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -133,13 +133,13 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
     <scm>
-        <connection>scm:git:git@github.com/coodoo-io/appconfig.git</connection>
-        <url>scm:git:git@github.com:coodoo-io/appconfig.git</url>
-        <developerConnection>scm:git:git@github.com:coodoo-io/appconfig.git</developerConnection>
+        <connection>scm:git:git@github.com/coodoo-io/coodoo-app-config.git</connection>
+        <url>scm:git:git@github.com:coodoo-io/coodoo-app-config.git</url>
+        <developerConnection>scm:git:git@github.com:coodoo-io/coodoo-app-config.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/coodoo-io/appconfig/issues</url>
+        <url>https://github.com/coodoo-io/coodoo-app-config/issues</url>
     </issueManagement>
 </project>
