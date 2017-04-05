@@ -12,6 +12,7 @@
 
 ### Features
 
+ * No EJB components anymore, just plain CDI
  * All value types are now capable for encryption
  * A value once set can be immutable using `AppConfigKeyAttributes.isImmutable()`
  * Configuration static loader: `AppConfigSettings.loadProperties()`
@@ -20,7 +21,7 @@
 
  * The value type PASSWORD is no longer available, so are the methods `AppConfigs.getPassword()` and `AppConfigs.setPassword()`
  * The methods `AppConfigKey.isDBValue()` and `AppConfigKey.getDefaultValue()` moved to the new optional interface `AppConfigKeyAttributes`
-
+ * To provide the EntityManager you have to implement a `@AppConfigsEntityManager` CDI producer
 
 <a name="1.0.1"></a>
 

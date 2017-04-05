@@ -13,12 +13,13 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.coodoo.appconfig.boundary.annotation.AppConfigsEntityManager;
 import io.coodoo.appconfig.control.AppConfigSettings;
 import io.coodoo.appconfig.control.EncryptDecrypt;
 import io.coodoo.appconfig.entity.AppConfigValue;
@@ -33,7 +34,8 @@ public class AppConfigs {
 
     private static Logger log = LoggerFactory.getLogger(AppConfigs.class);
 
-    @PersistenceContext
+    @Inject
+    @AppConfigsEntityManager
     EntityManager entityManager;
 
     public String getString(AppConfigKey key) {

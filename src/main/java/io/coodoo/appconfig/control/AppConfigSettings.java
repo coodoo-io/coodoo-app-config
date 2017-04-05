@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author coodoo GmbH (coodoo.io)
  */
-@Singleton
-@Startup
+@ApplicationScoped
 public class AppConfigSettings {
 
     private static Logger log = LoggerFactory.getLogger(AppConfigSettings.class);
@@ -55,8 +54,7 @@ public class AppConfigSettings {
 
     static Properties properties = new Properties();
 
-    @PostConstruct
-    public void init() {
+    public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
         AppConfigSettings.loadProperties();
     }
 
