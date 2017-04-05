@@ -49,18 +49,18 @@ Wow, optionally all types can be stored encrypted!
 	</dependency>
    ```
    
-   To provide the EntityManager you have to implement a `@AppConfigsEntityManager` CDI producer.
+   To provide the EntityManager you have to implement a `@AppConfigEntityManager` CDI producer.
    
    ```java
 
 	@Stateless
-	public class AppConfigsEntityManagerProducer {
+	public class AppConfigEntityManagerProducer {
 	
 	    @PersistenceContext(unitName = "my-fancy-persistence-unit")
 	    private EntityManager entityManager;
 	
 	    @Produces
-	    @AppConfigsEntityManager
+	    @AppConfigEntityManager
 	    public EntityManager getEntityManager() {
 	        return entityManager;
 	    }

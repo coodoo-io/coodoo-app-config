@@ -13,6 +13,6 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD})
-public @interface AppConfigsEntityManager {
+public @interface AppConfigEntityManager {
 
 }

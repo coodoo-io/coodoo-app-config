@@ -21,7 +21,7 @@
 
  * The value type PASSWORD is no longer available, so are the methods `AppConfigs.getPassword()` and `AppConfigs.setPassword()`
  * The methods `AppConfigKey.isDBValue()` and `AppConfigKey.getDefaultValue()` moved to the new optional interface `AppConfigKeyAttributes`
- * To provide the EntityManager you have to implement a `@AppConfigsEntityManager` CDI producer
+ * To provide the EntityManager you have to implement a `@AppConfigEntityManager` CDI producer
 
 <a name="1.0.1"></a>
 
