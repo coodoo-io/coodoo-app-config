@@ -1,4 +1,4 @@
-package io.coodoo.appconfig.entity;
+package io.coodoo.framework.appconfig.entity;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import io.coodoo.appconfig.boundary.ValueType;
+import io.coodoo.framework.appconfig.boundary.ValueType;
 
 /**
  * AppConfig entity

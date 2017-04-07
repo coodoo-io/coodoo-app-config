@@ -1,4 +1,4 @@
-package io.coodoo.appconfig.control;
+package io.coodoo.framework.appconfig.control;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;

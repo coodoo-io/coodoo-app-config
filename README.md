@@ -2,7 +2,7 @@
 
 *Simple persistent application configuration service*
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/coodoo-app-config/1.1.0/appconfig-1.1.0.jar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/coodoo-app-config/1.2.0/appconfig-1.2.0.jar)
 
 This library provides you an easy way to store and access properties with the database.
 Available value types:
@@ -21,31 +21,31 @@ Wow, optionally all types can be stored encrypted!
    Create the AppConfig table `app_config`. *This is a MySQL example, see [here](https://github.com/coodoo-io/coodoo-app-config/tree/master/src/main/resources) for more.*
 
    ```sql
-   
-	CREATE TABLE app_config (
-	    config_key varchar(128) NOT NULL,
-	    config_type varchar(32) NOT NULL,
-	    config_value varchar(1024) DEFAULT NULL,
-	    config_large_value text DEFAULT NULL,
-	    PRIMARY KEY (config_key),
-	    UNIQUE (config_key)
-	);
-   
-    ```
+    
+    CREATE TABLE app_config (
+      config_key VARCHAR(128) NOT NULL,
+      config_type VARCHAR(32) NOT NULL,
+      config_value VARCHAR(1024) DEFAULT NULL,
+      config_large_value text DEFAULT NULL,
+      PRIMARY KEY (config_key),
+      UNIQUE (config_key)
+    );
+    
+   ```
     
    Add the entity to your persistence.xml:
 
    ```xml
-	<class>io.coodoo.appconfig.entity.AppConfigValue</class> 
+    <class>io.coodoo.appconfig.entity.AppConfigValue</class> 
    ```
 
-   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.1.0%7Cjar):
+   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.0%7Cjar):
 
    ```xml
 	<dependency>
 	    <groupId>io.coodoo</groupId>
-	    <artifactId>appconfig</artifactId>
-	    <version>1.1.0</version>
+	    <artifactId>coodoo-app-config</artifactId>
+	    <version>1.2.0</version>
 	</dependency>
    ```
    

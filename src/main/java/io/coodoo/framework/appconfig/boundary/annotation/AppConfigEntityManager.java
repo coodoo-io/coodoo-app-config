@@ -1,4 +1,4 @@
-package io.coodoo.appconfig.boundary.annotation;
+package io.coodoo.framework.appconfig.boundary.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

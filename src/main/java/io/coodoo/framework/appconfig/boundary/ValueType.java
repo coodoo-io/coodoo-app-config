@@ -1,4 +1,4 @@
-package io.coodoo.appconfig.boundary;
+package io.coodoo.framework.appconfig.boundary;
 
 /**
  * Available value types, each with an encrypted alternative

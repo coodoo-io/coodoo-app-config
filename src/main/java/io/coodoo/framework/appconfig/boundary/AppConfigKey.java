@@ -1,4 +1,4 @@
-package io.coodoo.appconfig.boundary;
+package io.coodoo.framework.appconfig.boundary;
 
 /**
  * Configuration key interface

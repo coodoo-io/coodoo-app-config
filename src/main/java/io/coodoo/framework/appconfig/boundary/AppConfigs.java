@@ -1,4 +1,4 @@
-package io.coodoo.appconfig.boundary;
+package io.coodoo.framework.appconfig.boundary;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
@@ -19,10 +19,10 @@ import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.coodoo.appconfig.boundary.annotation.AppConfigEntityManager;
-import io.coodoo.appconfig.control.AppConfigSettings;
-import io.coodoo.appconfig.control.EncryptDecrypt;
-import io.coodoo.appconfig.entity.AppConfigValue;
+import io.coodoo.framework.appconfig.boundary.annotation.AppConfigEntityManager;
+import io.coodoo.framework.appconfig.control.AppConfigSettings;
+import io.coodoo.framework.appconfig.control.EncryptDecrypt;
+import io.coodoo.framework.appconfig.entity.AppConfigValue;
 
 /**
  * AppConfigs service

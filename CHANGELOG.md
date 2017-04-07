@@ -6,6 +6,15 @@
 ### BREAKING CHANGES
 -->
 
+
+<a name="1.2.0"></a>
+
+## 1.2.0 (2017-04-07)
+
+### BREAKING CHANGES
+
+ * Changed the packageing from "io.coodoo.appconfig" to "io.coodoo.framework.appconfig"
+
 <a name="1.1.0"></a>
 
 ## 1.1.0 (2017-04-04)
