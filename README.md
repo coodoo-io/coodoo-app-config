@@ -36,7 +36,7 @@ Wow, optionally all types can be stored encrypted!
    Add the entity to your persistence.xml:
 
    ```xml
-    <class>io.coodoo.appconfig.entity.AppConfigValue</class> 
+    <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
    ```
 
    Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.0%7Cjar):
