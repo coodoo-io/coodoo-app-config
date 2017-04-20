@@ -32,12 +32,6 @@ Wow, optionally all types can be stored encrypted!
     );
     
    ```
-    
-   Add the entity to your persistence.xml:
-
-   ```xml
-    <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
-   ```
 
    Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.0%7Cjar):
 
@@ -48,7 +42,13 @@ Wow, optionally all types can be stored encrypted!
 	    <version>1.2.0</version>
 	</dependency>
    ```
-   
+       
+   Add the entity to your persistence.xml:
+
+   ```xml
+    <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
+   ```
+
    To provide the EntityManager you have to implement a `@AppConfigEntityManager` CDI producer.
    
    ```java
@@ -98,7 +98,7 @@ Wow, optionally all types can be stored encrypted!
 
    ```java
 	@Stateless
-	public void ExampleService {
+	public class ExampleService {
 
 	    @Inject
 	    AppConfigs appConfigs;    
