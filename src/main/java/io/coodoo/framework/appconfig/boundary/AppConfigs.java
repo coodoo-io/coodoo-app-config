@@ -159,7 +159,7 @@ public class AppConfigs {
 
     private void setValue(AppConfigKey key, String value) {
 
-        if (isDBValue(key)) {
+        if (!isDBValue(key)) {
             log.error("Can't set value if marked \"isDBValue = false\"!", key.getId());
             return;
         }

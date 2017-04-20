@@ -7,6 +7,15 @@
 -->
 
 
+<a name="1.2.1"></a>
+
+## 1.2.1 (2017-04-20)
+
+### Bug Fixes
+
+ * Made `setValue()` working again
+
+
 <a name="1.2.0"></a>
 
 ## 1.2.0 (2017-04-07)

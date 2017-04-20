@@ -2,8 +2,6 @@
 
 *Simple persistent application configuration service*
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.coodoo/appconfig.svg?style=flat)](http://search.maven.org/remotecontent?filepath=io/coodoo/coodoo-app-config/1.2.0/appconfig-1.2.0.jar)
-
 This library provides you an easy way to store and access properties with the database.
 Available value types:
  - **String** *- gets stored as a CLOB if it exceeds a designated length*
@@ -39,13 +37,13 @@ Wow, optionally all types can be stored encrypted!
     <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
    ```
 
-   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.0%7Cjar):
+   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.1%7Cjar):
 
    ```xml
 	<dependency>
 	    <groupId>io.coodoo</groupId>
 	    <artifactId>coodoo-app-config</artifactId>
-	    <version>1.2.0</version>
+	    <version>1.2.1</version>
 	</dependency>
    ```
    
