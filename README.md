@@ -22,31 +22,31 @@ Wow, optionally all types can be stored encrypted!
 
    ```sql
     
-    CREATE TABLE app_config (
-      config_key VARCHAR(128) NOT NULL,
-      config_type VARCHAR(32) NOT NULL,
-      config_value VARCHAR(1024) DEFAULT NULL,
-      config_large_value text DEFAULT NULL,
-      PRIMARY KEY (config_key),
-      UNIQUE (config_key)
-    );
+   CREATE TABLE app_config (
+     config_key VARCHAR(128) NOT NULL,
+     config_type VARCHAR(32) NOT NULL,
+     config_value VARCHAR(1024) DEFAULT NULL,
+     config_large_value text DEFAULT NULL,
+     PRIMARY KEY (config_key),
+     UNIQUE (config_key)
+   );
     
    ```
 
    Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.0%7Cjar):
 
    ```xml
-	<dependency>
-	    <groupId>io.coodoo</groupId>
-	    <artifactId>coodoo-app-config</artifactId>
-	    <version>1.2.0</version>
-	</dependency>
+   <dependency>
+   	<groupId>io.coodoo</groupId>
+   	<artifactId>coodoo-app-config</artifactId>
+   	<version>1.2.0</version>
+   </dependency>
    ```
        
    Add the entity to your persistence.xml:
 
    ```xml
-    <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
+   <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
    ```
 
    To provide the EntityManager you have to implement a `@AppConfigEntityManager` CDI producer.
