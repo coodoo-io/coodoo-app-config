@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -40,60 +39,34 @@ public class AppConfigs {
 
     public String getString(AppConfigKey key) {
 
-        return getRawValue(key);
+        return (String) stringToValue(key.getType(), getRawValue(key));
     }
 
     public Long getLong(AppConfigKey key) {
 
-        String value = getRawValue(key);
-        if (value != null && value.matches("^-?\\d{1,37}$")) {
-            return Long.valueOf(value);
-        }
-        return null;
-
-        // TODO
-        // return (Long) getRawValue(key); ..usw
+        return (Long) stringToValue(key.getType(), getRawValue(key));
     }
 
     public Boolean getBoolean(AppConfigKey key) {
 
-        String value = getRawValue(key);
-        if (value != null) {
-            if (value.equals(Boolean.TRUE.toString())) {
-                return Boolean.TRUE;
-            }
-            if (value.equals(Boolean.FALSE.toString())) {
-                return Boolean.FALSE;
-            }
-        }
-        return null;
+        return (Boolean) stringToValue(key.getType(), getRawValue(key));
     }
 
     public boolean getNativeBoolean(AppConfigKey key) {
 
-        Boolean value = getBoolean(key);
-        if (value != null) {
-            return value;
-        }
-        return false;
+        return Boolean.TRUE.equals(getBoolean(key));
     }
 
+    @SuppressWarnings("unchecked")
     public List<String> getStringList(AppConfigKey key) {
 
-        String value = getRawValue(key);
-        if (value != null) {
-            return AppConfigSettings.SPLIT_PATTERN.splitAsStream(value).map(String::new).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
+        return (List<String>) stringToValue(key.getType(), getRawValue(key));
     }
 
+    @SuppressWarnings("unchecked")
     public List<Long> getLongList(AppConfigKey key) {
 
-        String value = getRawValue(key);
-        if (value != null) {
-            return AppConfigSettings.SPLIT_PATTERN.splitAsStream(value).map(Long::valueOf).collect(Collectors.toList());
-        }
-        return new ArrayList<>();
+        return (List<Long>) stringToValue(key.getType(), getRawValue(key));
     }
 
     public void setString(AppConfigKey key, String value) {
@@ -103,22 +76,22 @@ public class AppConfigs {
 
     public void setLong(AppConfigKey key, Long value) {
 
-        setRawValue(key, value);
+        setRawValue(key, valueToString(key.getType(), value));
     }
 
     public void setBoolean(AppConfigKey key, Boolean value) {
 
-        setRawValue(key, value);
+        setRawValue(key, valueToString(key.getType(), value));
     }
 
     public void setStringList(AppConfigKey key, List<String> value) {
 
-        setRawValue(key, value);
+        setRawValue(key, valueToString(key.getType(), value));
     }
 
     public void setLongList(AppConfigKey key, List<Long> value) {
 
-        setRawValue(key, value);
+        setRawValue(key, valueToString(key.getType(), value));
     }
 
     public String getRawValue(AppConfigKey key) {
@@ -151,7 +124,7 @@ public class AppConfigs {
         return null;
     }
 
-    public void setRawValue(AppConfigKey key, Object value) {
+    public void setRawValue(AppConfigKey key, String value) {
 
         if (!isDBValue(key)) {
             throw new AppConfigException("Can't set value " + key.getId() + " if marked \"isDBValue = false\"!");
@@ -169,7 +142,7 @@ public class AppConfigs {
             return;
         }
 
-        String valueString = consultEncryption(key, valueToString(key.getType(), value));
+        String valueString = consultEncryption(key, value);
 
         if (config == null) {
 
@@ -187,6 +160,51 @@ public class AppConfigs {
             }
             setValueToEntity(valueString, config);
             log.debug("Updating {}: {}", key.getId(), valueString);
+        }
+    }
+
+    private Object stringToValue(ValueType valueType, String string) {
+
+        if (string == null) {
+            return null;
+        }
+        if (valueType == null) {
+            throw new AppConfigException("ValueType is missing for given value: " + string);
+        }
+        try {
+            switch (valueType) {
+
+                case STRING:
+                case STRING_ENCRYPTED:
+                    return string;
+
+                case LONG:
+                case LONG_ENCRYPTED:
+                    return Long.valueOf(string);
+
+                case BOOLEAN:
+                case BOOLEAN_ENCRYPTED:
+                    if (string.equals(Boolean.TRUE.toString())) {
+                        return Boolean.TRUE;
+                    }
+                    if (string.equals(Boolean.FALSE.toString())) {
+                        return Boolean.FALSE;
+                    }
+                    return null;
+
+                case STRING_LIST:
+                case STRING_LIST_ENCRYPTED:
+                    return AppConfigSettings.SPLIT_PATTERN.splitAsStream(string).map(String::new).collect(Collectors.toList());
+
+                case LONG_LIST:
+                case LONG_LIST_ENCRYPTED:
+                    return AppConfigSettings.SPLIT_PATTERN.splitAsStream(string).map(Long::valueOf).collect(Collectors.toList());
+
+                default:
+                    throw new AppConfigException("ValueType unknown!");
+            }
+        } catch (Exception e) {
+            throw new AppConfigException("ValueType " + valueType.name() + " can't process given string: " + string, e);
         }
     }
 
