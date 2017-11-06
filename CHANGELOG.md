@@ -7,6 +7,16 @@
 -->
 
 
+<a name="1.2.2"></a>
+
+## 1.2.2 (2017-11-06)
+
+### Features
+
+ * Added methods `setRawValue()` and `getRawValue()` to gain untyped values.
+ * Introduced `AppConfigException`.
+
+
 <a name="1.2.1"></a>
 
 ## 1.2.1 (2017-04-20)

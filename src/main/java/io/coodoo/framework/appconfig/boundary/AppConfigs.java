@@ -40,31 +40,24 @@ public class AppConfigs {
 
     public String getString(AppConfigKey key) {
 
-        return getValue(key);
-    }
-
-    public void setString(AppConfigKey key, String value) {
-
-        setValue(key, value);
+        return getRawValue(key);
     }
 
     public Long getLong(AppConfigKey key) {
 
-        String value = getValue(key);
+        String value = getRawValue(key);
         if (value != null && value.matches("^-?\\d{1,37}$")) {
             return Long.valueOf(value);
         }
         return null;
-    }
 
-    public void setLong(AppConfigKey key, Long value) {
-
-        setValue(key, value != null ? value.toString() : null);
+        // TODO
+        // return (Long) getRawValue(key); ..usw
     }
 
     public Boolean getBoolean(AppConfigKey key) {
 
-        String value = getValue(key);
+        String value = getRawValue(key);
         if (value != null) {
             if (value.equals(Boolean.TRUE.toString())) {
                 return Boolean.TRUE;
@@ -85,48 +78,50 @@ public class AppConfigs {
         return false;
     }
 
-    public void setBoolean(AppConfigKey key, Boolean value) {
-
-        setValue(key, value != null ? String.valueOf(value) : null);
-    }
-
     public List<String> getStringList(AppConfigKey key) {
 
-        String value = getValue(key);
+        String value = getRawValue(key);
         if (value != null) {
             return AppConfigSettings.SPLIT_PATTERN.splitAsStream(value).map(String::new).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
-    public void setStringList(AppConfigKey key, List<String> value) {
-
-        if (value != null) {
-            setValue(key, value.stream().filter(Objects::nonNull).map(s -> s.toString()).collect(Collectors.joining(AppConfigSettings.LIST_SEPARATOR)));
-        } else {
-            setValue(key, null);
-        }
-    }
-
     public List<Long> getLongList(AppConfigKey key) {
 
-        String value = getValue(key);
+        String value = getRawValue(key);
         if (value != null) {
             return AppConfigSettings.SPLIT_PATTERN.splitAsStream(value).map(Long::valueOf).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
-    public void setLongList(AppConfigKey key, List<Long> value) {
+    public void setString(AppConfigKey key, String value) {
 
-        if (value != null) {
-            setValue(key, value.stream().filter(Objects::nonNull).map(l -> l.toString()).collect(Collectors.joining(AppConfigSettings.LIST_SEPARATOR)));
-        } else {
-            setValue(key, null);
-        }
+        setRawValue(key, value);
     }
 
-    private String getValue(AppConfigKey key) {
+    public void setLong(AppConfigKey key, Long value) {
+
+        setRawValue(key, value);
+    }
+
+    public void setBoolean(AppConfigKey key, Boolean value) {
+
+        setRawValue(key, value);
+    }
+
+    public void setStringList(AppConfigKey key, List<String> value) {
+
+        setRawValue(key, value);
+    }
+
+    public void setLongList(AppConfigKey key, List<Long> value) {
+
+        setRawValue(key, value);
+    }
+
+    public String getRawValue(AppConfigKey key) {
 
         if (!isDBValue(key)) {
             return getDefaultValue(key);
@@ -137,8 +132,7 @@ public class AppConfigs {
         if (config != null) {
 
             if (!config.getType().equals(key.getType())) {
-                log.error("Abort loading {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
-                return null;
+                throw new AppConfigException("Abort loading " + key.getId() + ", wrong type: " + key.getType() + ", expected " + config.getType() + "!");
             }
 
             String value = null;
@@ -157,18 +151,16 @@ public class AppConfigs {
         return null;
     }
 
-    private void setValue(AppConfigKey key, String value) {
+    public void setRawValue(AppConfigKey key, Object value) {
 
         if (!isDBValue(key)) {
-            log.error("Can't set value if marked \"isDBValue = false\"!", key.getId());
-            return;
+            throw new AppConfigException("Can't set value " + key.getId() + " if marked \"isDBValue = false\"!");
         }
 
         AppConfigValue config = entityManager.find(AppConfigValue.class, key.getId());
 
         if (config != null && !config.getType().equals(key.getType())) {
-            log.error("Abort saving {}, wrong type: {}, expected {}!", key.getId(), key.getType(), config.getType());
-            return;
+            throw new AppConfigException("Abort saving " + key.getId() + ", wrong type: " + key.getType() + ", expected " + config.getType() + "!");
         }
 
         if (value == null) {
@@ -177,22 +169,62 @@ public class AppConfigs {
             return;
         }
 
+        String valueString = consultEncryption(key, valueToString(key.getType(), value));
+
         if (config == null) {
 
             config = new AppConfigValue();
             config.setKey(key.getId());
             config.setType(key.getType());
-            setValueToEntity(consultEncryption(key, value), config);
-            log.debug("Saving {}: {}", key.getId(), value);
+            setValueToEntity(valueString, config);
+            log.debug("Saving {}: {}", key.getId(), valueString);
             entityManager.persist(config);
 
         } else {
+
             if (isImmutable(key)) {
-                log.error("Can't update immutable value {}: {}", key.getId(), value);
-                return;
+                throw new AppConfigException("Can't update immutable value " + key.getId() + ": " + valueString);
             }
-            setValueToEntity(consultEncryption(key, value), config);
-            log.debug("Updating {}: {}", key.getId(), value);
+            setValueToEntity(valueString, config);
+            log.debug("Updating {}: {}", key.getId(), valueString);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private String valueToString(ValueType valueType, Object value) {
+
+        if (value == null) {
+            return null;
+        }
+        if (valueType == null) {
+            throw new AppConfigException("ValueType is missing for given value: " + value);
+        }
+        try {
+            switch (valueType) {
+
+                case STRING:
+                case STRING_ENCRYPTED:
+                case LONG:
+                case LONG_ENCRYPTED:
+                case BOOLEAN:
+                case BOOLEAN_ENCRYPTED:
+                    return String.valueOf(value);
+
+                case STRING_LIST:
+                case STRING_LIST_ENCRYPTED:
+                    return ((List<String>) value).stream().filter(Objects::nonNull).map(s -> s.toString())
+                                    .collect(Collectors.joining(AppConfigSettings.LIST_SEPARATOR));
+
+                case LONG_LIST:
+                case LONG_LIST_ENCRYPTED:
+                    return ((List<Long>) value).stream().filter(Objects::nonNull).map(l -> l.toString())
+                                    .collect(Collectors.joining(AppConfigSettings.LIST_SEPARATOR));
+
+                default:
+                    throw new AppConfigException("ValueType unknown!");
+            }
+        } catch (Exception e) {
+            throw new AppConfigException("ValueType " + valueType.name() + " can't process given value: " + value, e);
         }
     }
 
@@ -215,7 +247,7 @@ public class AppConfigs {
 
             } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException
                             | BadPaddingException | IllegalBlockSizeException e) {
-                log.error("Can't encrypt value", e);
+                throw new AppConfigException("Can't encrypt value", e);
             }
         }
         return value;
@@ -230,7 +262,7 @@ public class AppConfigs {
 
             } catch (UnsupportedEncodingException | NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | InvalidAlgorithmParameterException
                             | BadPaddingException | IllegalBlockSizeException e) {
-                log.error("Can't decrypt value", e);
+                throw new AppConfigException("Can't decrypt value", e);
             }
         }
         return value;
