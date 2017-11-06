@@ -14,7 +14,7 @@
 ### Features
 
  * Added methods `setRawValue()` and `getRawValue()` to gain untyped values.
- * Introduced `AppConfigException`.
+ * Introduced `AppConfigException` & `AppConfigsUtil`
 
 
 <a name="1.2.1"></a>
