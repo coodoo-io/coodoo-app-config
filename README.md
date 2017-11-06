@@ -37,13 +37,13 @@ Wow, optionally all types can be stored encrypted!
     <class>io.coodoo.framework.appconfig.entity.AppConfigValue</class> 
    ```
 
-   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.1%7Cjar):
+   Add the [maven dependency](http://search.maven.org/#artifactdetails%7Cio.coodoo%7Ccoodoo-app-config%7C1.2.2%7Cjar):
 
    ```xml
 	<dependency>
 	    <groupId>io.coodoo</groupId>
 	    <artifactId>coodoo-app-config</artifactId>
-	    <version>1.2.1</version>
+	    <version>1.2.2</version>
 	</dependency>
    ```
    
